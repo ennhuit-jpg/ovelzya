@@ -1,0 +1,1021 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #0d0d0d;
+  --card: #151515;
+  --field: #121212;
+  --line: rgba(212, 175, 55, 0.25);
+  --soft: #2a2a2a;
+  --gold: #d4af37;
+  --gold2: #e8c878;
+  --red: #e05a4e;
+  --wa: #25d366;
+  --cream: #f4f1ea;
+  --muted: #9a958a;
+  --disp: 'Cormorant Garamond', serif;
+  --body: 'Inter', sans-serif;
+  --disp-ar: 'Amiri', serif;
+  --body-ar: 'Cairo', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--cream);
+  font-family: var(--body);
+  font-size: 15px;
+  line-height: 1.65;
+  overflow-x: hidden;
+  direction: ltr;
+}
+
+body.ar {
+  direction: rtl;
+  font-family: var(--body-ar);
+}
+
+body.ar h1,
+body.ar h2,
+body.ar h3,
+body.ar h4,
+body.ar .font-disp {
+  font-family: var(--disp-ar) !important;
+}
+
+::selection {
+  background: var(--gold);
+  color: #000;
+}
+
+/* Discreet, ultra-modern luxury scrollbars - completely eliminates harsh yellow bars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.16);
+  border-radius: 9999px;
+  transition: background-color 0.2s ease;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.32);
+}
+
+/* Light mode scrollbar */
+html.light * {
+  scrollbar-color: rgba(0, 0, 0, 0.16) transparent;
+}
+html.light ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.16);
+}
+html.light ::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.32);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+h1, h2, h3, h4, .font-disp {
+  font-family: var(--disp);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.wrap {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+@keyframes bump {
+  40% {
+    transform: scale(1.4);
+  }
+}
+.animate-bump {
+  animation: bump 0.4s ease;
+}
+
+@keyframes float {
+  50% {
+    transform: translate(-50%, 8px);
+  }
+}
+.animate-float {
+  animation: float 2.4s ease-in-out infinite;
+}
+
+@keyframes mq {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: mq 34s linear infinite;
+}
+body.ar .animate-marquee {
+  animation-direction: reverse;
+}
+
+@keyframes pulse-gold {
+  50% {
+    opacity: 0.45;
+    transform: scale(1.12);
+  }
+}
+.animate-pulse-gold {
+  animation: pulse-gold 1.6s infinite;
+}
+
+@keyframes ping-fab {
+  70% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.animate-ping-fab::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid var(--gold);
+  animation: ping-fab 2.2s infinite;
+}
+
+@keyframes typing {
+  50% {
+    transform: translateY(-4px);
+    opacity: 0.5;
+  }
+}
+.typing-dot {
+  animation: typing 1s infinite;
+}
+.typing-dot:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.typing-dot:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes toastIn {
+  from {
+    transform: translateY(16px);
+    opacity: 0;
+  }
+}
+.animate-toast {
+  animation: toastIn 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.3);
+}
+
+/* Print Invoice & Thermal Ticket Styling (Guaranteed foreground on standard A4 & 80mm Thermal Printers) */
+@media print {
+  @page {
+    margin: 0;
+    size: auto;
+  }
+
+  /* Completely remove standard layout from print flow so it doesn't create blank pages */
+  header,
+  footer,
+  aside,
+  nav,
+  main,
+  .no-print,
+  .no-print *,
+  #admin-dashboard-container {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    max-height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  html, body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  /* Reset modal backdrop so the invoice or ticket appears directly at the top of page 1 */
+  .no-print-backdrop {
+    position: static !important;
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    background: #ffffff !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    visibility: visible !important;
+    z-index: 2147483647 !important;
+  }
+
+  .printable-invoice-wrapper,
+  .printable-invoice-wrapper *,
+  .thermal-ticket-container,
+  .thermal-ticket-container * {
+    visibility: visible !important;
+  }
+
+  /* A4 Invoice Document - Pure foreground display */
+  .printable-invoice-wrapper {
+    position: relative !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    max-width: 210mm !important;
+    margin: 0 auto !important;
+    padding: 8mm 12mm !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+    color: #111111 !important;
+    page-break-before: avoid !important;
+    break-before: avoid !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  .printable-document {
+    background: #ffffff !important;
+    color: #111111 !important;
+    padding: 0 !important;
+    font-size: 11pt !important;
+  }
+
+  .printable-document * {
+    color: #111111 !important;
+    border-color: #d1d5db !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+  }
+
+  .printable-document .text-[#d4af37],
+  .printable-document .text-gold {
+    color: #8f6503 !important;
+  }
+
+  .printable-document .bg-[#141414],
+  .printable-document .bg-[#161616],
+  .printable-document .bg-[#0e0e0e] {
+    background: #fbfbfb !important;
+    border-color: #e5e7eb !important;
+  }
+
+  .printable-document table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+  }
+
+  .printable-document th {
+    background: #f3f4f6 !important;
+    color: #111111 !important;
+    font-weight: 700 !important;
+    border-bottom: 2px solid #9ca3af !important;
+  }
+
+  .printable-document tr {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* 80mm Thermal Receipt Printer */
+  .thermal-ticket-container {
+    position: relative !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 80mm !important;
+    max-width: 80mm !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    z-index: 2147483647 !important;
+  }
+
+  .printable-receipt-slip {
+    width: 76mm !important;
+    max-width: 76mm !important;
+    margin: 0 auto !important;
+    padding: 2mm !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: #000000 !important;
+    background: #ffffff !important;
+    font-size: 10.5px !important;
+    line-height: 1.25 !important;
+  }
+
+  .printable-receipt-slip * {
+    color: #000000 !important;
+    border-color: #000000 !important;
+    background: transparent !important;
+  }
+}
+
+/* ==========================================================================
+   HAUTE JOAILLERIE LUXURY LIGHT THEME (MAISON OVELZYA)
+   Inspired by Place Vendôme jewelry houses: warm silk alabaster, 18K antique gold,
+   diffused elevation shadows, and crystal-clear typographic hierarchy.
+   ========================================================================== */
+html.light,
+body.light {
+  --bg: #fcfbfa;
+  --card: #ffffff;
+  --field: #f8f5ee;
+  --line: rgba(184, 134, 11, 0.24);
+  --soft: #ebe3d5;
+  --gold: #b38209;
+  --gold2: #8f6503;
+  --cream: #181512;
+  --muted: #6b6355;
+  background-color: #fcfbfa !important;
+  color: #181512 !important;
+}
+
+/* Light mode selection */
+html.light ::selection {
+  background: #d4af37;
+  color: #000000;
+}
+
+/* Light mode luxury header & navigation */
+html.light header {
+  background-color: rgba(253, 252, 250, 0.94) !important;
+  border-color: rgba(184, 134, 11, 0.24) !important;
+  box-shadow: 0 4px 24px rgba(45, 38, 28, 0.05) !important;
+}
+
+html.light header nav button {
+  color: #2b251d !important;
+  font-weight: 500 !important;
+}
+
+html.light header nav button:hover,
+html.light header nav button.text-\[\#d4af37\] {
+  color: #9e730a !important;
+}
+
+/* Hero Section in Light Mode - Luminous Champagne Silk Overlay */
+html.light .hero-section {
+  background-color: #fcfbfa !important;
+  border-color: rgba(184, 134, 11, 0.22) !important;
+}
+
+html.light .hero-gradient-overlay {
+  background: linear-gradient(
+    to right,
+    rgba(252, 250, 246, 0.97) 0%,
+    rgba(252, 250, 246, 0.86) 50%,
+    rgba(252, 250, 246, 0.32) 100%
+  ) !important;
+}
+
+body.ar html.light .hero-gradient-overlay {
+  background: linear-gradient(
+    to left,
+    rgba(252, 250, 246, 0.97) 0%,
+    rgba(252, 250, 246, 0.86) 50%,
+    rgba(252, 250, 246, 0.32) 100%
+  ) !important;
+}
+
+html.light .hero-section h1 {
+  color: #181512 !important;
+}
+
+html.light .hero-section h1 span {
+  color: #181512 !important;
+}
+
+html.light .hero-section h1 em {
+  color: #a07409 !important;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6);
+}
+
+html.light .hero-section p {
+  color: #484033 !important;
+}
+
+html.light .hero-section button.bg-transparent {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  color: #181512 !important;
+  border-color: rgba(184, 134, 11, 0.55) !important;
+  backdrop-filter: blur(8px) !important;
+  box-shadow: 0 2px 10px rgba(45, 38, 28, 0.05) !important;
+}
+
+html.light .hero-section button.bg-transparent:hover {
+  background-color: #ffffff !important;
+  color: #9e730a !important;
+  border-color: #9e730a !important;
+  box-shadow: 0 4px 16px rgba(184, 134, 11, 0.22) !important;
+}
+
+/* Continuous Marquee Ticker in Light Mode */
+html.light .animate-marquee {
+  color: #855d04 !important;
+}
+
+html.light .animate-marquee span {
+  color: #855d04 !important;
+}
+
+html.light div:has(> .animate-marquee) {
+  background-color: #f6f0e4 !important;
+  border-color: rgba(184, 134, 11, 0.22) !important;
+}
+
+/* Background surfaces in Light Mode */
+html.light .bg-\[\#0d0d0d\],
+html.light .bg-\[\#0a0a0a\],
+html.light .bg-\[\#000000\],
+html.light .bg-\[\#111111\],
+html.light .bg-\[\#0e0e0e\],
+html.light .bg-\[\#121212\] {
+  background-color: #fcfbfa !important;
+  color: #181512 !important;
+}
+
+/* Elevated cards, panels & modals in Light Mode */
+html.light .bg-\[\#141414\],
+html.light .bg-\[\#151515\],
+html.light .bg-\[\#161616\],
+html.light .bg-\[\#181818\],
+html.light .bg-\[\#1a1a1a\],
+html.light .bg-\[\#1c1c1c\],
+html.light .bg-\[\#1e1e1e\],
+html.light .bg-\[\#202020\],
+html.light .bg-\[\#222222\],
+html.light .bg-\[\#0f0f0f\] {
+  background-color: #ffffff !important;
+  color: #181512 !important;
+  border-color: #ebe3d5 !important;
+}
+
+/* Product Cards & Showcase Grid in Light Mode */
+html.light .group.bg-\[\#151515\],
+html.light .bg-\[\#151515\] {
+  background-color: #ffffff !important;
+  border-color: #ebe3d5 !important;
+  box-shadow: 0 4px 20px -2px rgba(45, 38, 28, 0.05), 0 1px 3px rgba(45, 38, 28, 0.02) !important;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+html.light .group.bg-\[\#151515\]:hover,
+html.light .bg-\[\#151515\]:hover {
+  border-color: #c4962c !important;
+  box-shadow: 0 16px 36px -6px rgba(184, 134, 11, 0.18), 0 2px 8px rgba(45, 38, 28, 0.04) !important;
+  transform: translateY(-3px) !important;
+}
+
+/* Image container inside product cards */
+html.light .aspect-\[4\/5\].bg-\[\#111\],
+html.light .aspect-\[4\/5\].bg-\[\#141414\],
+html.light .aspect-square.bg-\[\#111\],
+html.light .bg-\[\#111\] {
+  background-color: #faf8f5 !important;
+}
+
+/* Card titles, badges, and pricing */
+html.light h1,
+html.light h2,
+html.light h3,
+html.light h4,
+html.light .font-serif {
+  color: #181512;
+}
+
+html.light .text-white {
+  color: #181512 !important;
+}
+
+/* Allow buttons, badges, and colored pills to keep crisp light text when appropriate */
+html.light button.bg-purple-600 .text-white,
+html.light button.bg-purple-600,
+html.light .bg-purple-600,
+html.light button.bg-red-600,
+html.light .bg-red-600,
+html.light .bg-black .text-white,
+html.light .bg-black\/70,
+html.light .bg-black\/80 {
+  color: #ffffff !important;
+}
+
+html.light .text-\[\#f4f1ea\],
+html.light .text-\[\#e8e4dc\],
+html.light .text-\[\#cfcbc2\] {
+  color: #2b251d !important;
+}
+
+html.light .text-\[\#9a958a\],
+html.light .text-\[\#888\],
+html.light .text-\[\#999\],
+html.light .text-\[\#aaa\] {
+  color: #6b6355 !important;
+}
+
+/* Haute Joaillerie Warm Gold Accent */
+html.light .text-\[\#d4af37\],
+html.light .text-amber-400 {
+  color: #9e730a !important;
+}
+
+/* Borders in Light Mode */
+html.light .border-\[\#262626\],
+html.light .border-\[\#222\],
+html.light .border-\[\#333\],
+html.light .border-\[\#1e1e1e\],
+html.light .border-\[\#2a2a2a\],
+html.light .border-neutral-800,
+html.light .border-\[rgba\(212\,175\,55\,0\.25\)\] {
+  border-color: #ebe3d5 !important;
+}
+
+/* Inputs, textareas & dropdown selects in Light Mode */
+html.light input,
+html.light textarea,
+html.light select {
+  background-color: #ffffff !important;
+  color: #181512 !important;
+  border-color: #ded6c8 !important;
+  box-shadow: 0 1px 2px rgba(45, 38, 28, 0.03) !important;
+}
+
+html.light input::placeholder,
+html.light textarea::placeholder {
+  color: #8a8274 !important;
+}
+
+html.light input:focus,
+html.light textarea:focus,
+html.light select:focus {
+  border-color: #b38209 !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(179, 130, 9, 0.18) !important;
+}
+
+/* Category Filter Chips in Light Mode */
+html.light .border-\[\#262626\].bg-\[\#141414\].text-\[\#f4f1ea\] {
+  background-color: #ffffff !important;
+  border-color: #ded6c8 !important;
+  color: #38322a !important;
+  box-shadow: 0 1px 3px rgba(45, 38, 28, 0.04) !important;
+}
+
+html.light .border-\[\#262626\].bg-\[\#141414\].text-\[\#f4f1ea\]:hover {
+  border-color: #b8860b !important;
+  color: #9e730a !important;
+  background-color: #fbf9f4 !important;
+}
+
+/* Active Category Chip / Active Filter Pill in Light Mode (Velvet Plum from Image) */
+html.light button.bg-\[\#d4af37\].text-black.font-semibold {
+  background: #794a57 !important;
+  color: #ffffff !important;
+  border-color: #794a57 !important;
+  box-shadow: 0 4px 14px rgba(121, 74, 87, 0.28) !important;
+}
+
+/* Gold CTA Buttons in Light Mode */
+html.light button.bg-\[\#d4af37\],
+html.light .bg-\[\#d4af37\] {
+  background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%) !important;
+  color: #0e0d0b !important;
+  box-shadow: 0 4px 14px rgba(184, 134, 11, 0.28) !important;
+}
+
+html.light button.bg-\[\#d4af37\]:hover,
+html.light .bg-\[\#d4af37\]:hover {
+  background: linear-gradient(135deg, #e4bf47 0%, #cd9f2b 100%) !important;
+  box-shadow: 0 6px 18px rgba(184, 134, 11, 0.38) !important;
+}
+
+/* Promotional & Flash Sale Banners in Light Mode */
+html.light .border-\[\#d4af37\].bg-gradient-to-r {
+  background: linear-gradient(135deg, #edf6f4 0%, #e2f0ee 100%) !important;
+  border-color: #b8d7d1 !important;
+  box-shadow: 0 8px 24px rgba(67, 103, 97, 0.08) !important;
+}
+
+/* Countdown timer boxes */
+html.light .border-\[\#d4af37\].bg-\[\#151515\] {
+  background-color: #ffffff !important;
+  border-color: #d4af37 !important;
+  box-shadow: 0 4px 14px rgba(184, 134, 11, 0.12) !important;
+}
+
+/* Welcome discount call-to-action band */
+html.light .border-\[rgba\(212\,175\,55\,0\.3\)\].bg-gradient-to-b {
+  background: linear-gradient(180deg, #f0f7f5 0%, #ffffff 100%) !important;
+  border-color: #c4ded9 !important;
+  box-shadow: 0 12px 36px rgba(67, 103, 97, 0.08) !important;
+}
+
+/* Modal overlays in light mode */
+html.light .bg-black\/85,
+html.light .bg-black\/80,
+html.light .bg-black\/70,
+html.light .bg-black\/60 {
+  background-color: rgba(28, 24, 18, 0.65) !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+/* Cart Drawer in Light Mode */
+html.light aside.bg-\[\#101010\] {
+  background-color: #ffffff !important;
+  border-color: rgba(184, 134, 11, 0.25) !important;
+  box-shadow: -12px 0 36px rgba(45, 38, 28, 0.12) !important;
+}
+
+/* Mobile Bottom Nav in Light Mode */
+html.light nav[aria-label="Navigation mobile rapide"] {
+  background-color: rgba(253, 252, 250, 0.96) !important;
+  border-color: rgba(184, 134, 11, 0.22) !important;
+  box-shadow: 0 -4px 20px rgba(45, 38, 28, 0.06) !important;
+}
+
+html.light nav[aria-label="Navigation mobile rapide"] button {
+  color: #6b6355 !important;
+}
+
+html.light nav[aria-label="Navigation mobile rapide"] button.text-\[\#d4af37\] {
+  color: #9e730a !important;
+}
+
+/* Social Proof Notification Toast in Light Mode */
+html.light .bg-\[\#121212\]\/95 {
+  background-color: rgba(255, 255, 255, 0.98) !important;
+  border-color: rgba(184, 134, 11, 0.38) !important;
+  box-shadow: 0 16px 36px rgba(45, 38, 28, 0.15) !important;
+}
+
+/* Newsletter Section in Light Mode (Mineral Celadon & Velvet Plum from image.png) */
+html.light #newsletter-section > div,
+html.light .newsletter-card {
+  background: linear-gradient(180deg, #f0f7f5 0%, #e5f1ef 100%) !important;
+  border-color: #c4ded9 !important;
+  box-shadow: 0 18px 44px -10px rgba(67, 103, 97, 0.12), 0 2px 8px rgba(0, 0, 0, 0.02) !important;
+}
+
+html.light #newsletter-section h2 {
+  color: #1e1619 !important;
+}
+
+html.light #newsletter-section p {
+  color: #4a4245 !important;
+}
+
+html.light #newsletter-section .bg-\[\#d4af37\]\/10 {
+  background-color: rgba(121, 74, 87, 0.08) !important;
+  border-color: rgba(121, 74, 87, 0.25) !important;
+  color: #794a57 !important;
+}
+
+html.light #newsletter-section input {
+  background-color: #ffffff !important;
+  border-color: #c4ded9 !important;
+  color: #1e1619 !important;
+}
+
+html.light #newsletter-section input:focus {
+  border-color: #794a57 !important;
+  box-shadow: 0 0 0 3px rgba(121, 74, 87, 0.15) !important;
+}
+
+html.light #newsletter-section button[type="submit"] {
+  background: #794a57 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 16px rgba(121, 74, 87, 0.32) !important;
+  border: none !important;
+}
+
+html.light #newsletter-section button[type="submit"]:hover {
+  background: #653b47 !important;
+  box-shadow: 0 6px 20px rgba(121, 74, 87, 0.42) !important;
+}
+
+html.light #newsletter-section .border-\[\#1e1e1e\] {
+  border-color: #c8ded8 !important;
+  color: #5a5457 !important;
+}
+
+/* Exit Intent Modal in Light Mode (Matching the Newsletter Modal in image.png) */
+html.light #exit-intent-modal .exit-intent-card {
+  background-color: #ffffff !important;
+  border-color: #c4ded9 !important;
+  box-shadow: 0 24px 60px rgba(28, 24, 20, 0.18) !important;
+  background-image: radial-gradient(circle at top, rgba(229, 241, 239, 0.6) 0%, transparent 70%) !important;
+}
+
+html.light #exit-intent-modal h3 {
+  color: #1e1619 !important;
+}
+
+html.light #exit-intent-modal p {
+  color: #4a4245 !important;
+}
+
+html.light #exit-intent-modal .bg-\[\#181818\] {
+  background-color: #f2f8f7 !important;
+  border-color: #b8d7d1 !important;
+}
+
+html.light #exit-intent-modal .text-\[\#d4af37\] {
+  color: #794a57 !important;
+}
+
+html.light #exit-intent-modal .bg-\[\#d4af37\]\/15 {
+  background-color: rgba(121, 74, 87, 0.08) !important;
+  border-color: rgba(121, 74, 87, 0.25) !important;
+  color: #794a57 !important;
+}
+
+html.light #exit-intent-modal button.bg-\[\#252525\] {
+  background-color: #ffffff !important;
+  border-color: #c4ded9 !important;
+  color: #333333 !important;
+}
+
+html.light #exit-intent-modal button.bg-\[\#d4af37\] {
+  background: #794a57 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 16px rgba(121, 74, 87, 0.3) !important;
+}
+
+html.light #exit-intent-modal button.bg-\[\#d4af37\]:hover {
+  background: #653b47 !important;
+}
+
+/* Footer in Light Mode - Silk Ivory & Mineral Celadon Dividing Lines */
+html.light footer {
+  background-color: #fcfbfa !important;
+  border-color: #c4ded9 !important;
+  color: #544c40 !important;
+}
+
+html.light footer div[style*="WebkitTextStroke"] {
+  -webkit-text-stroke: 1px rgba(184, 134, 11, 0.22) !important;
+}
+
+html.light footer .text-\[\#9a958a\] {
+  color: #635b4f !important;
+}
+
+html.light footer .border-t.border-\[\#222\] {
+  border-color: #c4ded9 !important;
+}
+
+html.light footer a.bg-\[\#171717\] {
+  background-color: #ffffff !important;
+  border-color: #c4ded9 !important;
+  color: #544c40 !important;
+}
+
+html.light footer a.bg-\[\#171717\]:hover {
+  background-color: #794a57 !important;
+  color: #ffffff !important;
+  border-color: #794a57 !important;
+}
+
+html.light footer button[type="submit"] {
+  background-color: #794a57 !important;
+  color: #ffffff !important;
+  border-color: #794a57 !important;
+}
+
+html.light footer button[type="submit"]:hover {
+  background-color: #653b47 !important;
+  border-color: #653b47 !important;
+}
+
+/* Admin panel tables & stats in light mode */
+html.light .admin-table-row:hover {
+  background-color: #f7f3eb !important;
+}
+
+/* 3D Gold Logo Relief Utility Classes */
+.logo-relief {
+  filter: drop-shadow(0 2px 3px rgba(40, 25, 5, 0.35)) drop-shadow(0 5px 12px rgba(184, 134, 11, 0.25));
+}
+html.light .logo-relief {
+  filter: drop-shadow(0 1px 1px rgba(255, 255, 255, 0.8)) drop-shadow(0 3px 6px rgba(60, 40, 10, 0.28)) drop-shadow(0 6px 14px rgba(184, 134, 11, 0.18));
+}
+
+/* ==========================================================================
+   PRINT / PDF EXPORT RULES
+   Optimized for crisp 1-Page A4 & Thermal 80mm PDF output
+   ========================================================================== */
+@media print {
+  /* Hide all non-printable website chrome from PDF */
+  header,
+  nav,
+  footer,
+  aside,
+  .no-print,
+  .no-print-backdrop,
+  #chat-widget-root,
+  #social-proof-toast,
+  #exit-intent-modal,
+  .mobile-bottom-nav,
+  button:not(.force-print),
+  a[href^="http"] {
+    display: none !important;
+  }
+
+  /* Reset root document for pure clean vector print */
+  html,
+  body {
+    background: #ffffff !important;
+    color: #111111 !important;
+    font-size: 10.5pt !important;
+    line-height: 1.35 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    height: auto !important;
+    min-height: auto !important;
+    overflow: visible !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* A4 page sizing with comfortable 6mm-8mm margins ensuring 1-page fit */
+  @page {
+    size: A4 portrait;
+    margin: 6mm 8mm;
+  }
+
+  /* 1. Isolation when printing A4 Invoice */
+  body.printing-ovelzya-invoice *,
+  body:has(#ovelzya-invoice-modal) * {
+    visibility: hidden;
+  }
+
+  body.printing-ovelzya-invoice #ovelzya-invoice-sheet,
+  body.printing-ovelzya-invoice #ovelzya-invoice-sheet *,
+  body:has(#ovelzya-invoice-modal) #ovelzya-invoice-sheet,
+  body:has(#ovelzya-invoice-modal) #ovelzya-invoice-sheet * {
+    visibility: visible;
+  }
+
+  body.printing-ovelzya-invoice #ovelzya-invoice-modal,
+  body:has(#ovelzya-invoice-modal) #ovelzya-invoice-modal {
+    position: static !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    overflow: visible !important;
+    display: block !important;
+  }
+
+  body.printing-ovelzya-invoice #ovelzya-invoice-sheet,
+  body:has(#ovelzya-invoice-modal) #ovelzya-invoice-sheet {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    background: #ffffff !important;
+    color: #111111 !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  /* 1b. Isolation when printing A4 Warranty Certificate */
+  body.printing-ovelzya-warranty *,
+  body:has(#ovelzya-warranty-modal) * {
+    visibility: hidden;
+  }
+
+  body.printing-ovelzya-warranty #ovelzya-warranty-sheet,
+  body.printing-ovelzya-warranty #ovelzya-warranty-sheet *,
+  body:has(#ovelzya-warranty-modal) #ovelzya-warranty-sheet,
+  body:has(#ovelzya-warranty-modal) #ovelzya-warranty-sheet * {
+    visibility: visible;
+  }
+
+  body.printing-ovelzya-warranty #ovelzya-warranty-modal,
+  body:has(#ovelzya-warranty-modal) #ovelzya-warranty-modal {
+    position: static !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    overflow: visible !important;
+    display: block !important;
+  }
+
+  body.printing-ovelzya-warranty #ovelzya-warranty-sheet,
+  body:has(#ovelzya-warranty-modal) #ovelzya-warranty-sheet {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    background: #ffffff !important;
+    color: #111111 !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  /* 2. Isolation when printing 80mm Thermal Receipt */
+  body.printing-ovelzya-receipt *,
+  body:has(#ovelzya-receipt-modal) * {
+    visibility: hidden;
+  }
+
+  body.printing-ovelzya-receipt #ovelzya-receipt-sheet,
+  body.printing-ovelzya-receipt #ovelzya-receipt-sheet *,
+  body:has(#ovelzya-receipt-modal) #ovelzya-receipt-sheet,
+  body:has(#ovelzya-receipt-modal) #ovelzya-receipt-sheet * {
+    visibility: visible;
+  }
+
+  body.printing-ovelzya-receipt #ovelzya-receipt-modal,
+  body:has(#ovelzya-receipt-modal) #ovelzya-receipt-modal {
+    position: static !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    overflow: visible !important;
+    display: block !important;
+  }
+
+  body.printing-ovelzya-receipt #ovelzya-receipt-sheet,
+  body:has(#ovelzya-receipt-modal) #ovelzya-receipt-sheet {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin: 0 auto !important;
+    width: 76mm !important;
+    max-width: 76mm !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: 1px dashed #777777 !important;
+    box-shadow: none !important;
+    padding: 6px !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  /* General print utility classes */
+  .printable-document {
+    padding: 0 !important;
+    background: #ffffff !important;
+    color: #111111 !important;
+  }
+
+  tr, .print-avoid-break {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+}

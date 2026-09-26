@@ -1,0 +1,6 @@
+{
+  "name": "Ovelzya — Haute Joaillerie & Maroquinerie",
+  "description": "Maison Ovelzya : Joaillerie d'exception en acier chirurgical 316L et or 18K PVD inaltérable, oxyde de zirconium 5A et nacre naturelle. Bijoux étanches et hypoallergéniques.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
